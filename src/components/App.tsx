@@ -1,10 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 import { TodoList } from "./TodoList";
 import { ITodo } from "../types/data";
+import { Route, Routes } from "react-router-dom";
+import SignUp from "../Pages/SignUp";
+import Login from "../Pages/LogIn";
+
 
 const App: React.FC = () => {
   const [value, setValue] = useState("");
   const [todos, setTodos] = useState<ITodo[]>([]);
+  // const [result, setResult]:any = useState(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -32,10 +37,7 @@ const App: React.FC = () => {
     setValue("");
   };
 
-  // const removeInput = (todos, id): void =>
-  //   todos.filter((todo) => todo.id !== id);
-
-  const removeTodo = (id: number): void => {
+    const removeTodo = (id: number): void => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
@@ -56,6 +58,19 @@ const App: React.FC = () => {
 
   return (
     <div>
+      <div className="wrapper">
+        <Routes>
+          <Route
+            path="/sign-up"
+            element={<SignUp />}
+          />
+          <Route
+            path="/login"
+            element={<Login />}
+          />
+          
+        </Routes>
+      </div>
       <div>
         <input
           value={value}
