@@ -10,14 +10,13 @@ interface MyFormValues {
 
 interface IRequestOptions {
   method: string;
-  headers: any;
-  body: any;
-  redirect: any;
+  headers: HeadersInit | undefined;
+  body: string;
+  redirect: RequestRedirect | undefined;
 }
 
 export default function SignUpForm() {
-
-const [currentUser, setCurrentUser] = React.useState({})
+  const [currentUser, setCurrentUser] = React.useState({});
 
   const initialValues: MyFormValues = {
     name: "",
