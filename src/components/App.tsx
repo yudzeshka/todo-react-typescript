@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import SignUp from "../Pages/SignUp";
 import Login from "../Pages/LogIn";
 import { Link } from "react-router-dom";
+import { Main } from "../Pages/Main";
 const App: React.FC = () => {
   const [value, setValue] = useState("");
   const [todos, setTodos] = useState<ITodo[]>([]);
@@ -60,7 +61,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<App />} />
+          <Route path="/" element={<Main />} />
         </Routes>
       </div>
       <div>
@@ -71,16 +72,6 @@ const App: React.FC = () => {
           <button>sign up</button>
         </Link>
       </div>
-      <div>
-        <input
-          value={value}
-          onChange={handleChange}
-          ref={inputRef}
-          onKeyDown={handleKeyDown}
-        />
-        <button onClick={addTodo}>Add</button>
-      </div>
-      <TodoList items={todos} removeTodo={removeTodo} toggleTodo={toggleTodo} />
     </div>
   );
 };

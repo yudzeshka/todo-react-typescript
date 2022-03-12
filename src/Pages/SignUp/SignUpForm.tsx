@@ -1,18 +1,12 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage, validateYupSchema } from "formik";
 import * as Yup from "yup";
+import { IRequestOptions } from "../../types/data";
 
 interface MyFormValues {
   name: string;
   email: string;
   password: string;
-}
-
-interface IRequestOptions {
-  method: string;
-  headers: HeadersInit | undefined;
-  body: string;
-  redirect: RequestRedirect | undefined;
 }
 
 export default function SignUpForm() {

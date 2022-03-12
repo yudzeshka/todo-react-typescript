@@ -1,17 +1,11 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage, validateYupSchema } from "formik";
 import * as Yup from "yup";
+import { IRequestOptions } from "../../types/data";
 
 interface MyFormValues {
   email: string;
   password: string;
-}
-
-interface IRequestOptions {
-  method: string;
-  headers: any;
-  body: any;
-  redirect: any;
 }
 
 export default function LoginForm() {
@@ -48,7 +42,7 @@ export default function LoginForm() {
       .then((result) => setCurrentUser(JSON.parse(result)))
       .catch((error) => console.log("error", error));
   };
-console.log(currentUser);
+  console.log(currentUser);
   return (
     <Formik
       onSubmit={handleSubmit}
