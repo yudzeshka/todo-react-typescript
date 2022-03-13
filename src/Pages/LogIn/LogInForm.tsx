@@ -2,6 +2,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage, validateYupSchema } from "formik";
 import * as Yup from "yup";
 import { IRequestOptions } from "../../types/data";
+import { Navigate } from "react-router-dom";
 
 interface MyFormValues {
   email: string;
@@ -9,7 +10,7 @@ interface MyFormValues {
 }
 
 export default function LoginForm() {
-  const [currentUser, setCurrentUser] = React.useState({});
+  const [currentUser, setCurrentUser] = React.useState<any>(null);
 
   const initialValues: MyFormValues = {
     email: "",
@@ -42,8 +43,10 @@ export default function LoginForm() {
       .then((result) => setCurrentUser(JSON.parse(result)))
       .catch((error) => console.log("error", error));
   };
-  console.log(currentUser);
-  return (
+  currentUser && console.log(currentUser.token);
+  return currentUser ? (
+    <Navigate to={`/${currentUser.token}`} />
+  ) : (
     <Formik
       onSubmit={handleSubmit}
       initialValues={initialValues}

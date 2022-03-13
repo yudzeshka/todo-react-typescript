@@ -1,7 +1,7 @@
 export interface ITodo {
-  id: number;
-  title: string;
-  complete: boolean;
+  _id: string;
+  description: string;
+  completed: boolean;
 }
 
 export interface IRequestOptions {

@@ -1,16 +1,15 @@
 import { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { TodoList } from "../components/TodoList";
 import { IRequestOptions, ITodo } from "../types/data";
-import { Route, Routes } from "react-router-dom";
-import SignUp from "../Pages/SignUp";
-import Login from "../Pages/LogIn";
-import { Link } from "react-router-dom";
+
 const Main: React.FC = () => {
   const [value, setValue] = useState("");
-  const [todos, setTodos] = useState<ITodo[]>([]);
-  const [tasks, setTasks] = useState([]);
-  const token: string =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjJjODEyNWQzMDEyZjAwMTc2MDUwYmMiLCJpYXQiOjE2NDcwODM4MTN9.w9x6F4oVSfizkI3jl-iw8DOIuujhP1xjtkPQXhNWuew";
+  const [tasks, setTasks] = useState<ITodo[]>([]);
+  const [edit, setEdit] = useState("");
+
+  const { token }: any = useParams();
+  console.log(token);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -23,16 +22,36 @@ const Main: React.FC = () => {
     }
   };
 
-  const addTodo = () => {
+  const setTodos = async () => {
+    var getTasks = new Headers();
+    getTasks.append("Authorization", `Bearer ${token}`);
+    getTasks.append("Content-Type", "application/json");
+
+    var requestOptions: IRequestOptions = {
+      method: "GET",
+      headers: getTasks,
+      redirect: "follow",
+    };
+
+    fetch("https://api-nodejs-todolist.herokuapp.com/task", requestOptions)
+      .then((response) => response.text())
+      .then((result) =>
+        result ? setTasks(JSON.parse(result).data) : setTasks([])
+      )
+      .catch((error) => console.log("error", error));
+  };
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+    if (token) {
+      setTodos();
+    }
+  }, [token]);
+
+  const addTodo = async () => {
     if (value) {
-      setTodos([
-        ...todos,
-        {
-          id: Date.now(),
-          title: value,
-          complete: false,
-        },
-      ]);
       var addTask = new Headers();
       addTask.append("Authorization", `Bearer ${token}`);
       addTask.append("Content-Type", "application/json");
@@ -47,47 +66,107 @@ const Main: React.FC = () => {
         body: raw,
         redirect: "follow",
       };
-
-      fetch("https://api-nodejs-todolist.herokuapp.com/task", requestOptions)
+      setValue("");
+      token && setTodos();
+      await fetch(
+        "https://api-nodejs-todolist.herokuapp.com/task",
+        requestOptions
+      )
         .then((response) => response.text())
         .then((result) => console.log(result))
         .catch((error) => console.log("error", error));
     }
-    setValue("");
   };
 
-  const removeTodo = (id: number): void => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
-
-  const toggleTodo = (id: number): void => {
-    setTodos(
-      todos.map((todo) => {
-        if (todo.id !== id) return todo;
-        return { ...todo, complete: !todo.complete };
-      })
-    );
-  };
-
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-    var getTasks = new Headers();
-    getTasks.append("Authorization", `Bearer ${token}`);
-    getTasks.append("Content-Type", "application/json");
+  const removeTodo = async (id: string) => {
+    var removeTask = new Headers();
+    removeTask.append("Authorization", `Bearer ${token}`);
+    removeTask.append("Content-Type", "application/json");
 
     var requestOptions: IRequestOptions = {
-      method: "GET",
-      headers: getTasks,
+      method: "DELETE",
+      headers: removeTask,
+      redirect: "follow",
+    };
+    setTodos();
+    await fetch(
+      `https://api-nodejs-todolist.herokuapp.com/task/${id}`,
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+  };
+
+  const toggleTodo = async (id: string, completed: boolean) => {
+    var toggleTask = new Headers();
+    toggleTask.append("Authorization", `Bearer ${token}`);
+    toggleTask.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      completed: !completed,
+    });
+
+    var requestOptions: IRequestOptions = {
+      method: "PUT",
+      headers: toggleTask,
+      body: raw,
+      redirect: "follow",
+    };
+    setTodos();
+    await fetch(
+      `https://api-nodejs-todolist.herokuapp.com/task/${id}`,
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+    setTodos();
+  };
+
+  const editTodo = (id: string, edit: string) => {
+    setEdit(id);
+  };
+
+  const refreshTodo = async (id: string, value: string) => {
+    var editTask = new Headers();
+    editTask.append("Authorization", `Bearer ${token}`);
+    editTask.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      description: value,
+    });
+
+    var requestOptions: IRequestOptions = {
+      method: "PUT",
+      headers: editTask,
+      body: raw,
       redirect: "follow",
     };
 
-    fetch("https://api-nodejs-todolist.herokuapp.com/task", requestOptions)
+    setTodos();
+    await fetch(
+      `https://api-nodejs-todolist.herokuapp.com/task/${id}`,
+      requestOptions
+    )
       .then((response) => response.text())
-      .then((result) => setTasks(JSON.parse(result).data))
+      .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
-  }, []);
+    setEdit("");
+  };
+  // const removeTodo = (id: number): void => {
+  //   setTodos(todos.filter((todo) => todo.id !== id));
+  // };
+
+  // const toggleTodo = (id: number): void => {
+  //   setTodos(
+  //     todos.map((todo) => {
+  //       if (todo.id !== id) return todo;
+  //       return { ...todo, complete: !todo.complete };
+  //     })
+  //   );
+  // };
+
   tasks && console.log(tasks.map((task: any) => task.description));
   return (
     <div>
@@ -102,8 +181,14 @@ const Main: React.FC = () => {
         />
         <button onClick={addTodo}>Add</button>
       </div>
-      <TodoList items={todos} removeTodo={removeTodo} toggleTodo={toggleTodo} />
-      {tasks && tasks.map((task: any) => <p>{task.description}</p>)}
+      <TodoList
+        items={tasks}
+        removeTodo={removeTodo}
+        toggleTodo={toggleTodo}
+        editTodo={editTodo}
+        edit={edit}
+        refreshTodo={refreshTodo}
+      />
     </div>
   );
 };

@@ -5,8 +5,8 @@ import LoginForm from "./LogInForm";
 
 export default function Login() {
   return (
-    <div className="homePage flex items-center justify-center">
-       <LoginForm />
+    <div>
+      <LoginForm />
     </div>
   );
 }
