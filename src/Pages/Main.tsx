@@ -9,7 +9,7 @@ const Main: React.FC = () => {
   const [tasks, setTasks] = useState<ITodo[]>([]);
   const [edit, setEdit] = useState("");
 
-  const { token }: any = useParams();
+  const { token } = useParams<{ token: string }>();
   console.log(token);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -68,7 +68,7 @@ const Main: React.FC = () => {
         redirect: "follow",
       };
       setValue("");
-      token && setTodos();
+
       await fetch(
         "https://api-nodejs-todolist.herokuapp.com/task",
         requestOptions
@@ -76,6 +76,7 @@ const Main: React.FC = () => {
         .then((response) => response.text())
         .then((result) => console.log(result))
         .catch((error) => console.log("error", error));
+      token && (await setTodos());
     }
   };
 
@@ -89,7 +90,7 @@ const Main: React.FC = () => {
       headers: removeTask,
       redirect: "follow",
     };
-    setTodos();
+
     await fetch(
       `https://api-nodejs-todolist.herokuapp.com/task/${id}`,
       requestOptions
@@ -97,6 +98,7 @@ const Main: React.FC = () => {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
+    await setTodos();
   };
 
   const toggleTodo = async (id: string, completed: boolean) => {
@@ -114,7 +116,7 @@ const Main: React.FC = () => {
       body: raw,
       redirect: "follow",
     };
-    setTodos();
+
     await fetch(
       `https://api-nodejs-todolist.herokuapp.com/task/${id}`,
       requestOptions
@@ -122,7 +124,7 @@ const Main: React.FC = () => {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
-    setTodos();
+    await setTodos();
   };
 
   const editTodo = (id: string, edit: string) => {
@@ -145,7 +147,6 @@ const Main: React.FC = () => {
       redirect: "follow",
     };
 
-    setTodos();
     await fetch(
       `https://api-nodejs-todolist.herokuapp.com/task/${id}`,
       requestOptions
@@ -153,6 +154,7 @@ const Main: React.FC = () => {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
+    await setTodos();
     setEdit("");
   };
   // const removeTodo = (id: number): void => {
