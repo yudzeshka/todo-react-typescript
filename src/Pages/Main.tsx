@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { TodoList } from "../components/TodoList";
 import { IRequestOptions, ITodo } from "../types/data";
+import { Navigate } from "react-router-dom";
 
 const Main: React.FC = () => {
   const [value, setValue] = useState("");
@@ -168,7 +169,9 @@ const Main: React.FC = () => {
   // };
 
   tasks && console.log(tasks.map((task: any) => task.description));
-  return (
+  return !token ? (
+    <Navigate to="/" />
+  ) : (
     <div>
       <div className="wrapper"></div>
 
