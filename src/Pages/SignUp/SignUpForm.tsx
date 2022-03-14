@@ -11,7 +11,7 @@ interface MyFormValues {
 }
 
 export default function SignUpForm() {
-  const [currentUser, setCurrentUser] = React.useState(null);
+  const [currentUser, setCurrentUser] = React.useState<any>(null);
 
   const initialValues: MyFormValues = {
     name: "",
@@ -48,7 +48,7 @@ export default function SignUpForm() {
   };
 
   return currentUser ? (
-    <Navigate to="/main" />
+    <Navigate to={`/${currentUser.token}`} />
   ) : (
     <Formik
       onSubmit={handleSubmit}

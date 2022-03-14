@@ -2,13 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { TodoList } from "../components/TodoList";
 import { IRequestOptions, ITodo } from "../types/data";
+import { Navigate } from "react-router-dom";
 
 const Main: React.FC = () => {
   const [value, setValue] = useState("");
   const [tasks, setTasks] = useState<ITodo[]>([]);
   const [edit, setEdit] = useState("");
 
-  const { token }: any = useParams();
+  const { token } = useParams<{ token: string }>();
   console.log(token);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -67,7 +68,7 @@ const Main: React.FC = () => {
         redirect: "follow",
       };
       setValue("");
-      token && setTodos();
+
       await fetch(
         "https://api-nodejs-todolist.herokuapp.com/task",
         requestOptions
@@ -75,6 +76,7 @@ const Main: React.FC = () => {
         .then((response) => response.text())
         .then((result) => console.log(result))
         .catch((error) => console.log("error", error));
+      token && (await setTodos());
     }
   };
 
@@ -88,7 +90,7 @@ const Main: React.FC = () => {
       headers: removeTask,
       redirect: "follow",
     };
-    setTodos();
+
     await fetch(
       `https://api-nodejs-todolist.herokuapp.com/task/${id}`,
       requestOptions
@@ -96,6 +98,7 @@ const Main: React.FC = () => {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
+    await setTodos();
   };
 
   const toggleTodo = async (id: string, completed: boolean) => {
@@ -113,7 +116,7 @@ const Main: React.FC = () => {
       body: raw,
       redirect: "follow",
     };
-    setTodos();
+
     await fetch(
       `https://api-nodejs-todolist.herokuapp.com/task/${id}`,
       requestOptions
@@ -121,7 +124,7 @@ const Main: React.FC = () => {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
-    setTodos();
+    await setTodos();
   };
 
   const editTodo = (id: string, edit: string) => {
@@ -144,7 +147,6 @@ const Main: React.FC = () => {
       redirect: "follow",
     };
 
-    setTodos();
     await fetch(
       `https://api-nodejs-todolist.herokuapp.com/task/${id}`,
       requestOptions
@@ -152,6 +154,7 @@ const Main: React.FC = () => {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
+    await setTodos();
     setEdit("");
   };
   // const removeTodo = (id: number): void => {
@@ -168,7 +171,9 @@ const Main: React.FC = () => {
   // };
 
   tasks && console.log(tasks.map((task: any) => task.description));
-  return (
+  return !token ? (
+    <Navigate to="/" />
+  ) : (
     <div>
       <div className="wrapper"></div>
 
