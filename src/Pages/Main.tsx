@@ -1,34 +1,22 @@
 import { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Navigate, Link } from "react-router-dom";
 import { TodoList } from "../components/TodoList";
 import { IRequestOptions, ITodo } from "../types/data";
-import { Navigate } from "react-router-dom";
+import { Input } from "../components/Input";
 
 const Main: React.FC = () => {
-  const [value, setValue] = useState("");
   const [tasks, setTasks] = useState<ITodo[]>([]);
   const [edit, setEdit] = useState("");
 
   const { token } = useParams<{ token: string }>();
   console.log(token);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setValue(e.target.value);
-  };
-
-  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (e.key === "Enter") {
-      addTodo();
-    }
-  };
 
   const setTodos = async () => {
-    var getTasks = new Headers();
+    const getTasks = new Headers();
     getTasks.append("Authorization", `Bearer ${token}`);
     getTasks.append("Content-Type", "application/json");
 
-    var requestOptions: IRequestOptions = {
+    const requestOptions: IRequestOptions = {
       method: "GET",
       headers: getTasks,
       redirect: "follow",
@@ -43,49 +31,17 @@ const Main: React.FC = () => {
   };
 
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
     if (token) {
       setTodos();
     }
   }, [token]);
 
-  const addTodo = async () => {
-    if (value) {
-      var addTask = new Headers();
-      addTask.append("Authorization", `Bearer ${token}`);
-      addTask.append("Content-Type", "application/json");
-
-      var raw = JSON.stringify({
-        description: value,
-      });
-
-      var requestOptions: IRequestOptions = {
-        method: "POST",
-        headers: addTask,
-        body: raw,
-        redirect: "follow",
-      };
-      setValue("");
-
-      await fetch(
-        "https://api-nodejs-todolist.herokuapp.com/task",
-        requestOptions
-      )
-        .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.log("error", error));
-      token && (await setTodos());
-    }
-  };
-
   const removeTodo = async (id: string) => {
-    var removeTask = new Headers();
+    const removeTask = new Headers();
     removeTask.append("Authorization", `Bearer ${token}`);
     removeTask.append("Content-Type", "application/json");
 
-    var requestOptions: IRequestOptions = {
+    const requestOptions: IRequestOptions = {
       method: "DELETE",
       headers: removeTask,
       redirect: "follow",
@@ -102,15 +58,15 @@ const Main: React.FC = () => {
   };
 
   const toggleTodo = async (id: string, completed: boolean) => {
-    var toggleTask = new Headers();
+    const toggleTask = new Headers();
     toggleTask.append("Authorization", `Bearer ${token}`);
     toggleTask.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({
+    const raw = JSON.stringify({
       completed: !completed,
     });
 
-    var requestOptions: IRequestOptions = {
+    const requestOptions: IRequestOptions = {
       method: "PUT",
       headers: toggleTask,
       body: raw,
@@ -132,15 +88,15 @@ const Main: React.FC = () => {
   };
 
   const refreshTodo = async (id: string, value: string) => {
-    var editTask = new Headers();
+    const editTask = new Headers();
     editTask.append("Authorization", `Bearer ${token}`);
     editTask.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({
+    const raw = JSON.stringify({
       description: value,
     });
 
-    var requestOptions: IRequestOptions = {
+    const requestOptions: IRequestOptions = {
       method: "PUT",
       headers: editTask,
       body: raw,
@@ -172,19 +128,14 @@ const Main: React.FC = () => {
 
   tasks && console.log(tasks.map((task: any) => task.description));
   return !token ? (
-    <Navigate to="/" />
+    <Navigate to="/home" />
   ) : (
     <div>
-      <div className="wrapper"></div>
-
+      <Link to={"/home"}>
+        <button>log out</button>
+      </Link>
       <div>
-        <input
-          value={value}
-          onChange={handleChange}
-          ref={inputRef}
-          onKeyDown={handleKeyDown}
-        />
-        <button onClick={addTodo}>Add</button>
+        <Input token={token} setTodos={setTodos} />
       </div>
       <TodoList
         items={tasks}
