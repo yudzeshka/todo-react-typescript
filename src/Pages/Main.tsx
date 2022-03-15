@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Navigate, Link } from "react-router-dom";
 import { TodoList } from "../components/TodoList";
 import { IRequestOptions, ITodo } from "../types/data";
@@ -128,10 +128,10 @@ const Main: React.FC = () => {
 
   tasks && console.log(tasks.map((task: any) => task.description));
   return !token ? (
-    <Navigate to="/home" />
+    <Navigate to="/" />
   ) : (
     <div>
-      <Link to={"/home"}>
+      <Link to={"/"}>
         <button>log out</button>
       </Link>
       <div>
