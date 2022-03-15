@@ -22,11 +22,22 @@ const TodoItem: React.FC<ITodoItem> = (props) => {
   const [value, setValue] = React.useState(description);
   console.log(_id);
   console.log(edit);
+
+  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key === "Enter") {
+      refreshTodo(_id, value);
+    }
+  };
+
   return (
     <div>
       {edit === _id ? (
         <div>
-          <input value={value} onChange={(e) => setValue(e.target.value)} />{" "}
+          <input
+            value={value}
+            onKeyDown={handleKeyDown}
+            onChange={(e) => setValue(e.target.value)}
+          />{" "}
           <button onClick={() => refreshTodo(_id, value)}>save</button>
         </div>
       ) : (

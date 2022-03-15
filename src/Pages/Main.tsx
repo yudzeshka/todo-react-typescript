@@ -3,38 +3,41 @@ import { useParams, Navigate, Link } from "react-router-dom";
 import { TodoList } from "../components/TodoList";
 import { IRequestOptions, ITodo } from "../types/data";
 import { Input } from "../components/Input";
+import { useTodos } from "../services/useTodos";
 
 const Main: React.FC = () => {
-  const [tasks, setTasks] = useState<ITodo[]>([]);
+  const [tasks, setTasks] = useState<any>([]);
   const [edit, setEdit] = useState("");
 
   const { token } = useParams<{ token: string }>();
   console.log(token);
 
-  const setTodos = async () => {
-    const getTasks = new Headers();
-    getTasks.append("Authorization", `Bearer ${token}`);
-    getTasks.append("Content-Type", "application/json");
+  const todos = useTodos(token);
 
-    const requestOptions: IRequestOptions = {
-      method: "GET",
-      headers: getTasks,
-      redirect: "follow",
-    };
+  // const setTodos = async () => {
+  //   const getTasks = new Headers();
+  //   getTasks.append("Authorization", `Bearer ${token}`);
+  //   getTasks.append("Content-Type", "application/json");
 
-    fetch("https://api-nodejs-todolist.herokuapp.com/task", requestOptions)
-      .then((response) => response.text())
-      .then((result) =>
-        result ? setTasks(JSON.parse(result).data) : setTasks([])
-      )
-      .catch((error) => console.log("error", error));
-  };
+  //   const requestOptions: IRequestOptions = {
+  //     method: "GET",
+  //     headers: getTasks,
+  //     redirect: "follow",
+  //   };
 
+  //   fetch("https://api-nodejs-todolist.herokuapp.com/task", requestOptions)
+  //     .then((response) => response.text())
+  //     .then((result) =>
+  //       result ? setTasks(JSON.parse(result).data) : setTasks([])
+  //     )
+  //     .catch((error) => console.log("error", error));
+  // };
+  console.log(useTodos(token));
   useEffect(() => {
     if (token) {
-      setTodos();
+      setTasks(todos);
     }
-  }, [token]);
+  }, [token, todos]);
 
   const removeTodo = async (id: string) => {
     const removeTask = new Headers();
@@ -54,7 +57,7 @@ const Main: React.FC = () => {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
-    await setTodos();
+    await setTasks(todos);
   };
 
   const toggleTodo = async (id: string, completed: boolean) => {
@@ -80,7 +83,7 @@ const Main: React.FC = () => {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
-    await setTodos();
+    await setTasks(todos);
   };
 
   const editTodo = (id: string, edit: string) => {
@@ -110,7 +113,7 @@ const Main: React.FC = () => {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
-    await setTodos();
+    await setTasks(todos);
     setEdit("");
   };
   // const removeTodo = (id: number): void => {
@@ -126,7 +129,6 @@ const Main: React.FC = () => {
   //   );
   // };
 
-  tasks && console.log(tasks.map((task: any) => task.description));
   return !token ? (
     <Navigate to="/" />
   ) : (
@@ -134,9 +136,7 @@ const Main: React.FC = () => {
       <Link to={"/"}>
         <button>log out</button>
       </Link>
-      <div>
-        <Input token={token} setTodos={setTodos} />
-      </div>
+      <div>{/* <Input token={token} setTodos={setTodos} /> */}</div>
       <TodoList
         items={tasks}
         removeTodo={removeTodo}
