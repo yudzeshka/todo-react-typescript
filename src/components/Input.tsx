@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
-import { IRequestOptions } from "../types/data";
+import { addTodo } from "../services/services";
+
 interface IInput {
   token: string;
   setTodos: () => void;
@@ -15,7 +16,7 @@ const Input: React.FC<IInput> = (props) => {
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === "Enter") {
-      addTodo();
+      onClickAdd();
     }
   };
   const inputRef = useRef<HTMLInputElement>(null);
@@ -26,33 +27,10 @@ const Input: React.FC<IInput> = (props) => {
     }
   });
 
-  const addTodo = async () => {
-    if (value) {
-      const addTodoHeader = new Headers();
-      addTodoHeader.append("Authorization", `Bearer ${token}`);
-      addTodoHeader.append("Content-Type", "application/json");
-
-      const raw = JSON.stringify({
-        description: value,
-      });
-
-      const requestOptions: IRequestOptions = {
-        method: "POST",
-        headers: addTodoHeader,
-        body: raw,
-        redirect: "follow",
-      };
-      setValue("");
-
-      await fetch(
-        "https://api-nodejs-todolist.herokuapp.com/task",
-        requestOptions
-      )
-        .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.log("error", error));
-      token && (await setTodos());
-    }
+  const onClickAdd = async () => {
+    await addTodo(value, token);
+    setTodos();
+    setValue("");
   };
 
   return (
@@ -63,7 +41,7 @@ const Input: React.FC<IInput> = (props) => {
         ref={inputRef}
         onKeyDown={handleKeyDown}
       />
-      <button onClick={addTodo}>Add</button>
+      <button onClick={onClickAdd}>Add</button>
     </div>
   );
 };

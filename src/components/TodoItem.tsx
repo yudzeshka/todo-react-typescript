@@ -1,32 +1,49 @@
 import { ITodo } from "../types/data";
 import React from "react";
+import { removeTodo, toggleTodo, refreshTodo } from "../services/services";
+
 interface ITodoItem extends ITodo {
-  removeTodo: (id: string) => void;
-  toggleTodo: (id: string, completed: boolean) => void;
-  editTodo: (id: string, edit: string) => void;
-  refreshTodo: (id: string, value: string) => void;
-  edit: string;
+  setTodos: () => void;
+  token: string;
 }
 
 const TodoItem: React.FC<ITodoItem> = (props) => {
-  const {
-    _id,
-    description,
-    completed,
-    removeTodo,
-    toggleTodo,
-    editTodo,
-    edit,
-    refreshTodo,
-  } = props;
-  const [value, setValue] = React.useState(description);
-  console.log(_id);
-  console.log(edit);
+  const { setTodos, _id, description, completed, token } = props;
 
-  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+  const [value, setValue] = React.useState(description);
+  const [edit, setEdit] = React.useState("");
+
+  const onClickEdit = (id: string) => {
+    setEdit(id);
+  };
+
+  const onClickRemove: React.MouseEventHandler<
+    HTMLButtonElement
+  > = async () => {
+    await removeTodo(_id, token);
+    setTodos();
+  };
+
+  const onClickToggle: React.ChangeEventHandler<
+    HTMLInputElement
+  > = async () => {
+    await toggleTodo(_id, completed, token);
+    setTodos();
+  };
+
+  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = async (
+    e
+  ) => {
     if (e.key === "Enter") {
-      refreshTodo(_id, value);
+      await refreshTodo(_id, value, token);
+      setTodos();
     }
+  };
+
+  const onClickSave: React.MouseEventHandler<HTMLButtonElement> = async () => {
+    await refreshTodo(_id, value, token);
+    setTodos();
+    setEdit("");
   };
 
   return (
@@ -38,18 +55,14 @@ const TodoItem: React.FC<ITodoItem> = (props) => {
             onKeyDown={handleKeyDown}
             onChange={(e) => setValue(e.target.value)}
           />{" "}
-          <button onClick={() => refreshTodo(_id, value)}>save</button>
+          <button onClick={onClickSave}>save</button>
         </div>
       ) : (
         <div>
-          <input
-            type="checkbox"
-            checked={completed}
-            onChange={() => toggleTodo(_id, completed)}
-          />
+          <input type="checkbox" checked={completed} onChange={onClickToggle} />
           {description}
-          <button onClick={() => removeTodo(_id)}>x</button>
-          <button onClick={() => editTodo(_id, edit)}>edit</button>
+          <button onClick={onClickRemove}>x</button>
+          <button onClick={() => onClickEdit(_id)}>edit</button>
         </div>
       )}
     </div>
