@@ -20,8 +20,8 @@ export default function LoginForm() {
   const handleSubmit = (values: MyFormValues) => {
     console.log({ values });
 
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    const logInHeader = new Headers();
+    logInHeader.append("Content-Type", "application/json");
 
     const raw = JSON.stringify({
       email: values.email,
@@ -30,7 +30,7 @@ export default function LoginForm() {
 
     const requestOptions: IRequestOptions = {
       method: "POST",
-      headers: myHeaders,
+      headers: logInHeader,
       body: raw,
       redirect: "follow",
     };

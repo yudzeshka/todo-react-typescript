@@ -22,8 +22,8 @@ export default function SignUpForm() {
   const handleSubmit = (values: MyFormValues) => {
     console.log({ values });
 
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    const signUpHeader = new Headers();
+    signUpHeader.append("Content-Type", "application/json");
 
     const raw = JSON.stringify({
       name: values.name,
@@ -33,7 +33,7 @@ export default function SignUpForm() {
 
     const requestOptions: IRequestOptions = {
       method: "POST",
-      headers: myHeaders,
+      headers: signUpHeader,
       body: raw,
       redirect: "follow",
     };

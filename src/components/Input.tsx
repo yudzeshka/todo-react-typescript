@@ -28,9 +28,9 @@ const Input: React.FC<IInput> = (props) => {
 
   const addTodo = async () => {
     if (value) {
-      const addTask = new Headers();
-      addTask.append("Authorization", `Bearer ${token}`);
-      addTask.append("Content-Type", "application/json");
+      const addTodoHeader = new Headers();
+      addTodoHeader.append("Authorization", `Bearer ${token}`);
+      addTodoHeader.append("Content-Type", "application/json");
 
       const raw = JSON.stringify({
         description: value,
@@ -38,7 +38,7 @@ const Input: React.FC<IInput> = (props) => {
 
       const requestOptions: IRequestOptions = {
         method: "POST",
-        headers: addTask,
+        headers: addTodoHeader,
         body: raw,
         redirect: "follow",
       };

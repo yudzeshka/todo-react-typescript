@@ -40,13 +40,13 @@ const Main: React.FC = () => {
   }, [token, todos]);
 
   const removeTodo = async (id: string) => {
-    const removeTask = new Headers();
-    removeTask.append("Authorization", `Bearer ${token}`);
-    removeTask.append("Content-Type", "application/json");
+    const removeTodoHeader = new Headers();
+    removeTodoHeader.append("Authorization", `Bearer ${token}`);
+    removeTodoHeader.append("Content-Type", "application/json");
 
     const requestOptions: IRequestOptions = {
       method: "DELETE",
-      headers: removeTask,
+      headers: removeTodoHeader,
       redirect: "follow",
     };
 
@@ -61,9 +61,9 @@ const Main: React.FC = () => {
   };
 
   const toggleTodo = async (id: string, completed: boolean) => {
-    const toggleTask = new Headers();
-    toggleTask.append("Authorization", `Bearer ${token}`);
-    toggleTask.append("Content-Type", "application/json");
+    const toggleTodoHeader = new Headers();
+    toggleTodoHeader.append("Authorization", `Bearer ${token}`);
+    toggleTodoHeader.append("Content-Type", "application/json");
 
     const raw = JSON.stringify({
       completed: !completed,
@@ -71,7 +71,7 @@ const Main: React.FC = () => {
 
     const requestOptions: IRequestOptions = {
       method: "PUT",
-      headers: toggleTask,
+      headers: toggleTodoHeader,
       body: raw,
       redirect: "follow",
     };
@@ -91,9 +91,9 @@ const Main: React.FC = () => {
   };
 
   const refreshTodo = async (id: string, value: string) => {
-    const editTask = new Headers();
-    editTask.append("Authorization", `Bearer ${token}`);
-    editTask.append("Content-Type", "application/json");
+    const refreshTodoHeader = new Headers();
+    refreshTodoHeader.append("Authorization", `Bearer ${token}`);
+    refreshTodoHeader.append("Content-Type", "application/json");
 
     const raw = JSON.stringify({
       description: value,
@@ -101,7 +101,7 @@ const Main: React.FC = () => {
 
     const requestOptions: IRequestOptions = {
       method: "PUT",
-      headers: editTask,
+      headers: refreshTodoHeader,
       body: raw,
       redirect: "follow",
     };
