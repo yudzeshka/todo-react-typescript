@@ -65,6 +65,7 @@ export default function LoginForm() {
           <Field name="password" placeholder="Password" type="password" />
           <ErrorMessage name="password" component="div" className="error" />
           <button type="submit">Log In</button>
+          <Button text={"Add"} onClick={onClickAdd} />
         </Form>
       )}
     </Formik>

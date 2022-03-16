@@ -1,7 +1,7 @@
 import { ITodo } from "../types/data";
 import React from "react";
 import { removeTodo, toggleTodo, refreshTodo } from "../services/services";
-
+import Button from "../components/Button";
 interface ITodoItem extends ITodo {
   setTodos: () => void;
   token: string;
@@ -13,7 +13,7 @@ const TodoItem: React.FC<ITodoItem> = (props) => {
   const [value, setValue] = React.useState(description);
   const [edit, setEdit] = React.useState("");
 
-  const onClickEdit = (id: string) => {
+  const onClickEdit = (id: any) => {
     setEdit(id);
   };
 
@@ -37,6 +37,7 @@ const TodoItem: React.FC<ITodoItem> = (props) => {
     if (e.key === "Enter") {
       await refreshTodo(_id, value, token);
       setTodos();
+      setEdit("");
     }
   };
 
@@ -55,14 +56,14 @@ const TodoItem: React.FC<ITodoItem> = (props) => {
             onKeyDown={handleKeyDown}
             onChange={(e) => setValue(e.target.value)}
           />{" "}
-          <button onClick={onClickSave}>save</button>
+          <Button text={"Save"} onClick={onClickSave} />
         </div>
       ) : (
         <div>
           <input type="checkbox" checked={completed} onChange={onClickToggle} />
           {description}
-          <button onClick={onClickRemove}>x</button>
-          <button onClick={() => onClickEdit(_id)}>edit</button>
+          <Button text={"x"} onClick={onClickRemove} />
+          <Button text={"edit"} onClick={() => onClickEdit(_id)} />
         </div>
       )}
     </div>

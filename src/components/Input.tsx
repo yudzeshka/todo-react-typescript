@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { addTodo } from "../services/services";
+import Button from "./Button";
 
 interface IInput {
   token: string;
@@ -14,9 +15,13 @@ const Input: React.FC<IInput> = (props) => {
     setValue(e.target.value);
   };
 
-  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = async (
+    e
+  ) => {
     if (e.key === "Enter") {
-      onClickAdd();
+      await addTodo(value, token);
+      setTodos();
+      setValue("");
     }
   };
   const inputRef = useRef<HTMLInputElement>(null);
@@ -27,7 +32,7 @@ const Input: React.FC<IInput> = (props) => {
     }
   });
 
-  const onClickAdd = async () => {
+  const onClickAdd: React.MouseEventHandler<HTMLButtonElement> = async () => {
     await addTodo(value, token);
     setTodos();
     setValue("");
@@ -41,7 +46,7 @@ const Input: React.FC<IInput> = (props) => {
         ref={inputRef}
         onKeyDown={handleKeyDown}
       />
-      <button onClick={onClickAdd}>Add</button>
+      <Button text={"Add"} onClick={onClickAdd} />
     </div>
   );
 };
