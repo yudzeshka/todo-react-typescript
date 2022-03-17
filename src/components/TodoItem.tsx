@@ -1,7 +1,7 @@
 import { ITodo } from "../types/data";
 import React from "react";
 import { removeTodo, toggleTodo, refreshTodo } from "../services/services";
-import Button from "../components/Button";
+import Button from "./Button";
 interface ITodoItem extends ITodo {
   setTodos: () => void;
   token: string;
@@ -62,7 +62,7 @@ const TodoItem: React.FC<ITodoItem> = (props) => {
         <div>
           <input type="checkbox" checked={completed} onChange={onClickToggle} />
           {description}
-          <Button text={"x"} onClick={onClickRemove} type={"button"} />
+          <Button text={"delete"} onClick={onClickRemove} type={"button"} />
           <Button
             text={"edit"}
             onClick={() => onClickEdit(_id)}

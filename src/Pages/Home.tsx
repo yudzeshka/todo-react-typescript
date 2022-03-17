@@ -1,15 +1,14 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Button from "../components/Button";
 
 export default function Home() {
   return (
     <div>
       <Link to={"/login"}>
-        <button>login</button>
+        <Button text={"Login"} type={"button"} />
       </Link>
       <Link to={"/sign-up"}>
-        <button>sign up</button>
+        <Button text={"Sign up"} type={"button"} />
       </Link>
     </div>
   );

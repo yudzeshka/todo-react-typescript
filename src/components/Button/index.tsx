@@ -11,7 +11,7 @@ const Button: React.FC<IButton> = (props) => {
   console.log(styles);
   const { text, onClick, type } = props;
   return (
-    <button onClick={onClick} type={type}>
+    <button className={styles.button} onClick={onClick} type={type}>
       {text}
     </button>
   );

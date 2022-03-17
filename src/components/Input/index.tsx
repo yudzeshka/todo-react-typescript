@@ -1,7 +1,8 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
-import { addTodo } from "../services/services";
-import Button from "./Button";
+import { addTodo } from "../../services/services";
+import Button from "../Button";
+import styles from "./Input.module.scss";
 
 interface IInput {
   token: string;
@@ -45,6 +46,7 @@ const Input: React.FC<IInput> = (props) => {
         onChange={handleChange}
         ref={inputRef}
         onKeyDown={handleKeyDown}
+        className={styles.input}
       />
       <Button text={"Add"} onClick={onClickAdd} type={"button"} />
     </div>
