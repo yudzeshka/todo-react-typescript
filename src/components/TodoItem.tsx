@@ -56,14 +56,18 @@ const TodoItem: React.FC<ITodoItem> = (props) => {
             onKeyDown={handleKeyDown}
             onChange={(e) => setValue(e.target.value)}
           />{" "}
-          <Button text={"Save"} onClick={onClickSave} />
+          <Button text={"Save"} onClick={onClickSave} type={"button"} />
         </div>
       ) : (
         <div>
           <input type="checkbox" checked={completed} onChange={onClickToggle} />
           {description}
-          <Button text={"x"} onClick={onClickRemove} />
-          <Button text={"edit"} onClick={() => onClickEdit(_id)} />
+          <Button text={"x"} onClick={onClickRemove} type={"button"} />
+          <Button
+            text={"edit"}
+            onClick={() => onClickEdit(_id)}
+            type={"button"}
+          />
         </div>
       )}
     </div>

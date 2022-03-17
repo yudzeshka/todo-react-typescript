@@ -4,6 +4,7 @@ import { TodoList } from "../components/TodoList";
 import { IRequestOptions, ITodo } from "../types/data";
 import { Input } from "../components/Input";
 import { logOut } from "../services/services";
+import Button from "../components/Button";
 
 const Main: React.FC = () => {
   const [tasks, setTasks] = useState<ITodo[]>([]);
@@ -38,7 +39,11 @@ const Main: React.FC = () => {
   ) : (
     <div>
       <Link to={"/"}>
-        <button onClick={() => logOut(token)}>log out</button>
+        <Button
+          text={"log out"}
+          type={"button"}
+          onClick={() => logOut(token)}
+        />
       </Link>
       <div>
         <Input token={token} setTodos={setTodos} />

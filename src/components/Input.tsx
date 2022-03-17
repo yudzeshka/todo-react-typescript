@@ -46,7 +46,7 @@ const Input: React.FC<IInput> = (props) => {
         ref={inputRef}
         onKeyDown={handleKeyDown}
       />
-      <Button text={"Add"} onClick={onClickAdd} />
+      <Button text={"Add"} onClick={onClickAdd} type={"button"} />
     </div>
   );
 };

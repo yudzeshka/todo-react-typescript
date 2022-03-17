@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage, validateYupSchema } from "formik";
 import * as Yup from "yup";
 import { IRequestOptions } from "../../types/data";
 import { Navigate } from "react-router-dom";
-
+import Button from "../../components/Button";
 interface MyFormValues {
   name: string;
   email: string;
@@ -70,7 +70,7 @@ export default function SignUpForm() {
           <ErrorMessage name="email" component="div" className="error" />
           <Field name="password" placeholder="Password" type="password" />
           <ErrorMessage name="password" component="div" className="error" />
-          <button type="submit">Sign Up</button>
+          <Button text={"Sign Up"} type={"submit"} />
         </Form>
       )}
     </Formik>
