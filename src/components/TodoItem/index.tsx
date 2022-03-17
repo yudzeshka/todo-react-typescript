@@ -1,7 +1,9 @@
-import { ITodo } from "../types/data";
+import { ITodo } from "../../types/data";
 import React from "react";
-import { removeTodo, toggleTodo, refreshTodo } from "../services/services";
-import Button from "./Button";
+import { removeTodo, toggleTodo, refreshTodo } from "../../services/services";
+import Button from "../Button";
+import styles from "./TodoItem.module.scss";
+
 interface ITodoItem extends ITodo {
   setTodos: () => void;
   token: string;
@@ -48,27 +50,30 @@ const TodoItem: React.FC<ITodoItem> = (props) => {
   };
 
   return (
-    <div>
+    <div className={styles.todoItem}>
       {edit === _id ? (
-        <div>
+        <>
           <input
+            className={styles.editValue}
             value={value}
             onKeyDown={handleKeyDown}
             onChange={(e) => setValue(e.target.value)}
           />{" "}
           <Button text={"Save"} onClick={onClickSave} type={"button"} />
-        </div>
+        </>
       ) : (
-        <div>
+        <>
           <input type="checkbox" checked={completed} onChange={onClickToggle} />
-          {description}
-          <Button text={"delete"} onClick={onClickRemove} type={"button"} />
-          <Button
-            text={"edit"}
-            onClick={() => onClickEdit(_id)}
-            type={"button"}
-          />
-        </div>
+          <span>{description}</span>
+          <div className="buttonsBlock">
+            <Button text={"delete"} onClick={onClickRemove} type={"button"} />
+            <Button
+              text={"edit"}
+              onClick={() => onClickEdit(_id)}
+              type={"button"}
+            />
+          </div>
+        </>
       )}
     </div>
   );

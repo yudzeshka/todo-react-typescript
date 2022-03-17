@@ -63,7 +63,7 @@ export default function SignUpForm() {
       })}
     >
       {() => (
-        <Form className=" flex flex-col">
+        <Form className="form">
           <Field name="name" placeholder="Name" />
           <ErrorMessage name="name" component="div" className="error" />
           <Field name="email" placeholder="Email" />

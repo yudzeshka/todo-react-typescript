@@ -40,7 +40,7 @@ const Input: React.FC<IInput> = (props) => {
   };
 
   return (
-    <div>
+    <div className={styles.inputBlock}>
       <input
         value={value}
         onChange={handleChange}
@@ -48,7 +48,7 @@ const Input: React.FC<IInput> = (props) => {
         onKeyDown={handleKeyDown}
         className={styles.input}
       />
-      <Button text={"Add"} onClick={onClickAdd} type={"button"} />
+      <Button text={"Add Todo"} onClick={onClickAdd} type={"button"} />
     </div>
   );
 };

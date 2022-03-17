@@ -6,7 +6,7 @@ import Home from "../Pages/Home";
 
 const App: React.FC = () => {
   return (
-    <div>
+    <div className="wrapper">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sign-up" element={<SignUp />} />

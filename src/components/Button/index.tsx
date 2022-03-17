@@ -8,7 +8,6 @@ interface IButton {
 }
 
 const Button: React.FC<IButton> = (props) => {
-  console.log(styles);
   const { text, onClick, type } = props;
   return (
     <button className={styles.button} onClick={onClick} type={type}>

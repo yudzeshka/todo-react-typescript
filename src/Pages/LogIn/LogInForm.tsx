@@ -60,7 +60,7 @@ export default function LoginForm() {
       })}
     >
       {() => (
-        <Form className=" flex flex-col">
+        <Form className="form">
           <Field name="email" placeholder="Email" />
           <ErrorMessage name="email" component="div" className="error" />
           <Field name="password" placeholder="Password" type="password" />

@@ -1,5 +1,6 @@
 import { ITodo } from "../types/data";
-import { TodoItem } from "../components/TodoItem";
+import { TodoItem } from "./TodoItem";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 interface ITodoListProps {
   items: ITodo[];
@@ -10,11 +11,18 @@ interface ITodoListProps {
 const TodoList: React.FC<ITodoListProps> = (props) => {
   const { setTodos, token } = props;
   return (
-    <div>
+    <TransitionGroup>
       {props.items.map((todo) => (
-        <TodoItem key={todo._id} {...todo} setTodos={setTodos} token={token} />
+        <CSSTransition key={todo._id} classNames={"todo"} timeout={800}>
+          <TodoItem
+            key={todo._id}
+            {...todo}
+            setTodos={setTodos}
+            token={token}
+          />
+        </CSSTransition>
       ))}
-    </div>
+    </TransitionGroup>
   );
 };
 

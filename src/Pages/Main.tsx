@@ -37,7 +37,7 @@ const Main: React.FC = () => {
   return !token ? (
     <Navigate to="/" />
   ) : (
-    <div>
+    <div className="mainPage">
       <Link to={"/"}>
         <Button
           text={"log out"}
