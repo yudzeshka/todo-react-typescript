@@ -3,11 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { addTodo } from "../../services/services";
 import Button from "../Button";
 import styles from "./Input.module.scss";
-
-interface IInput {
-  token: string;
-  setTodos: () => void;
-}
+import { IInput } from "../../types/data";
 
 const Input: React.FC<IInput> = (props) => {
   const { token, setTodos } = props;

@@ -60,6 +60,17 @@ code {
         color: #333;
         width: 30%;
       }
+      .error {
+        color: red;
+      }
+    }
+  }
+  @media (max-width: 1000px) {
+    .mainPage {
+      min-width: 100%;
+    }
+    .homePage {
+      min-width: 100%;
     }
   }
 }
@@ -78,7 +89,7 @@ code {
   30% {
     opacity: 0.7;
     transform: translateX(30px);
-    background-color: red;
+    background-color: rgb(243, 184, 184);
   }
   100% {
     opacity: 0;
@@ -93,10 +104,16 @@ code {
   30% {
     opacity: 0.7;
     transform: translateX(30px);
-    background-color: rgb(54, 255, 47);
+    background-color: rgb(193, 241, 191);
   }
   100% {
     opacity: 0;
     transform: translateX(-200px);
+  }
+}
+
+@media (max-width: 1000px) {
+  html {
+    font-size: 8px;
   }
 }
