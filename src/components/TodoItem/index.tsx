@@ -1,19 +1,23 @@
-import { ITodo } from "../../types/data";
+import { ITodoItem } from "../../types/data";
 import React from "react";
 import { removeTodo, toggleTodo, refreshTodo } from "../../services/services";
 import Button from "../Button";
 import styles from "./TodoItem.module.scss";
-
-interface ITodoItem extends ITodo {
-  setTodos: () => void;
-  token: string;
-}
+import { useState, useEffect, useRef } from "react";
 
 const TodoItem: React.FC<ITodoItem> = (props) => {
   const { setTodos, _id, description, completed, token } = props;
 
-  const [value, setValue] = React.useState(description);
-  const [edit, setEdit] = React.useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  });
+
+  const [value, setValue] = useState(description);
+  const [edit, setEdit] = useState("");
 
   const onClickEdit = (id: any) => {
     setEdit(id);
@@ -58,6 +62,7 @@ const TodoItem: React.FC<ITodoItem> = (props) => {
             value={value}
             onKeyDown={handleKeyDown}
             onChange={(e) => setValue(e.target.value)}
+            ref={inputRef}
           />{" "}
           <Button text={"Save"} onClick={onClickSave} type={"button"} />
         </>
