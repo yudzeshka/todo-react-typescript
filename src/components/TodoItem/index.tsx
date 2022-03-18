@@ -17,10 +17,10 @@ const TodoItem: React.FC<ITodoItem> = (props) => {
   });
 
   const [value, setValue] = useState(description);
-  const [edit, setEdit] = useState("");
+  const [editedTodoId, setEditedTodoId] = useState("");
 
   const onClickEdit = (id: any) => {
-    setEdit(id);
+    setEditedTodoId(id);
   };
 
   const onClickRemove: React.MouseEventHandler<
@@ -43,19 +43,19 @@ const TodoItem: React.FC<ITodoItem> = (props) => {
     if (e.key === "Enter") {
       await refreshTodo(_id, value, token);
       setTodos();
-      setEdit("");
+      setEditedTodoId("");
     }
   };
 
   const onClickSave: React.MouseEventHandler<HTMLButtonElement> = async () => {
     await refreshTodo(_id, value, token);
     setTodos();
-    setEdit("");
+    setEditedTodoId("");
   };
 
   return (
     <div className={styles.todoItem}>
-      {edit === _id ? (
+      {editedTodoId === _id ? (
         <>
           <input
             className={styles.editValue}
