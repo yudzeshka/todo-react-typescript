@@ -33,7 +33,7 @@ const Main: React.FC = () => {
       setTodos();
     }
   }, [token]);
-  console.log(token);
+
   return !token ? (
     <Navigate to="/" />
   ) : (
@@ -53,4 +53,4 @@ const Main: React.FC = () => {
   );
 };
 
-export { Main };
+export default Main;
