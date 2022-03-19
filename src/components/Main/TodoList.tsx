@@ -1,5 +1,5 @@
-import { ITodoListProps } from "../types/data";
-import { TodoItem } from "./TodoItem";
+import { ITodoListProps } from "../../types/data";
+import { TodoItem } from "./TodoItem/TodoItem";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 const TodoList: React.FC<ITodoListProps> = (props) => {

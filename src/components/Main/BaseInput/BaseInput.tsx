@@ -1,11 +1,11 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
-import { addTodo } from "../../services/services";
-import Button from "../Button";
-import styles from "./Input.module.scss";
-import { IInput } from "../../types/data";
+import { addTodo } from "../../../services/todoApi";
+import BaseButton from "../../common/BaseButton/BaseButton";
+import styles from "./BaseInput.module.scss";
+import { IBaseInput } from "../../../types/data";
 
-const Input: React.FC<IInput> = (props) => {
+const BaseInput: React.FC<IBaseInput> = (props) => {
   const { token, setTodos } = props;
   const [value, setValue] = useState("");
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -44,9 +44,9 @@ const Input: React.FC<IInput> = (props) => {
         onKeyDown={handleKeyDown}
         className={styles.input}
       />
-      <Button text={"Add Todo"} onClick={onClickAdd} type={"button"} />
+      <BaseButton text={"Add Todo"} onClick={onClickAdd} type={"button"} />
     </div>
   );
 };
 
-export { Input };
+export { BaseInput };

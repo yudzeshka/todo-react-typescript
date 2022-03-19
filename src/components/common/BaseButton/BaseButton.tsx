@@ -1,8 +1,8 @@
 import React from "react";
-import styles from "./Button.module.scss";
-import { IButton } from "../../types/data";
+import styles from "./BaseButton.module.scss";
+import { IBaseButton } from "../../../types/data";
 
-const Button: React.FC<IButton> = (props) => {
+const BaseButton: React.FC<IBaseButton> = (props) => {
   const { text, onClick, type } = props;
   return (
     <button className={styles.button} onClick={onClick} type={type}>
@@ -11,4 +11,4 @@ const Button: React.FC<IButton> = (props) => {
   );
 };
 
-export default Button;
+export default BaseButton;

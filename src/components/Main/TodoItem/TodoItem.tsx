@@ -1,7 +1,8 @@
-import { ITodoItem } from "../../types/data";
+import { ITodoItem } from "../../../types/data";
 import React from "react";
-import { removeTodo, toggleTodo, refreshTodo } from "../../services/services";
-import Button from "../Button";
+import { removeTodo, toggleTodo, refreshTodo } from "../../../services/todoApi";
+import BaseButton from "../../common/BaseButton/BaseButton";
+
 import styles from "./TodoItem.module.scss";
 import { useState, useEffect, useRef } from "react";
 
@@ -64,15 +65,19 @@ const TodoItem: React.FC<ITodoItem> = (props) => {
             onChange={(e) => setValue(e.target.value)}
             ref={inputRef}
           />{" "}
-          <Button text={"Save"} onClick={onClickSave} type={"button"} />
+          <BaseButton text={"Save"} onClick={onClickSave} type={"button"} />
         </>
       ) : (
         <>
           <input type="checkbox" checked={completed} onChange={onClickToggle} />
           <span>{description}</span>
           <div className="buttonsBlock">
-            <Button text={"delete"} onClick={onClickRemove} type={"button"} />
-            <Button
+            <BaseButton
+              text={"delete"}
+              onClick={onClickRemove}
+              type={"button"}
+            />
+            <BaseButton
               text={"edit"}
               onClick={() => onClickEdit(_id)}
               type={"button"}

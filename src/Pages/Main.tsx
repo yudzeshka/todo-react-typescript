@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { useParams, Navigate, Link } from "react-router-dom";
-import { TodoList } from "../components/TodoList";
+import { TodoList } from "../components/Main/TodoList";
 import { IRequestOptions, ITodo } from "../types/data";
-import { Input } from "../components/Input";
-import { logOut } from "../services/services";
-import Button from "../components/Button";
+import { BaseInput } from "../components/Main/BaseInput/BaseInput";
+import { logOut } from "../services/userApi";
+import BaseButton from "../components/common/BaseButton/BaseButton";
 
 const Main: React.FC = () => {
   const [tasks, setTasks] = useState<ITodo[]>([]);
 
-  const { token } = useParams<{ token: string }>();
-
+  // const { userName } = useParams<{ userName: any }>();
+  const token = localStorage.getItem("token");
   const setTodos = async () => {
     const getTodosHeader = new Headers();
     getTodosHeader.append("Authorization", `Bearer ${token}`);
@@ -33,20 +33,20 @@ const Main: React.FC = () => {
       setTodos();
     }
   }, [token]);
-
+  console.log(token);
   return !token ? (
     <Navigate to="/" />
   ) : (
     <div className="mainPage">
       <Link to={"/"}>
-        <Button
+        <BaseButton
           text={"log out"}
           type={"button"}
           onClick={() => logOut(token)}
         />
       </Link>
       <div>
-        <Input token={token} setTodos={setTodos} />
+        <BaseInput token={token} setTodos={setTodos} />
       </div>
       <TodoList items={tasks} setTodos={setTodos} token={token} />
     </div>

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Button from "../components/Button";
+import BaseButton from "../components/common/BaseButton/BaseButton";
 
 export default function Home() {
   return (
@@ -7,10 +7,10 @@ export default function Home() {
       <h1>TODO LIST</h1>
       <div>
         <Link to={"/login"}>
-          <Button text={"Login"} type={"button"} />
+          <BaseButton text={"Login"} type={"button"} />
         </Link>
         <Link to={"/sign-up"}>
-          <Button text={"Sign up"} type={"button"} />
+          <BaseButton text={"Sign up"} type={"button"} />
         </Link>
       </div>
     </div>

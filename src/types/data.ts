@@ -22,12 +22,12 @@ export interface IRequestOptions {
   redirect: RequestRedirect | undefined;
 }
 
-export interface IInput {
+export interface IBaseInput {
   token: string;
   setTodos: () => void;
 }
 
-export interface IButton {
+export interface IBaseButton {
   text: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   type: "button" | "submit";
