@@ -6,8 +6,12 @@ import styles from "./BaseInput.module.scss";
 import { IBaseInput } from "../../../types/data";
 
 const BaseInput: React.FC<IBaseInput> = (props) => {
-  const { token, setTodos } = props;
+  const { setTodos } = props;
+
   const [value, setValue] = useState("");
+
+  const token: string | null = localStorage.getItem("token");
+
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setValue(e.target.value);
   };
@@ -21,6 +25,7 @@ const BaseInput: React.FC<IBaseInput> = (props) => {
       setValue("");
     }
   };
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {

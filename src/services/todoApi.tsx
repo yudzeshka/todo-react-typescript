@@ -1,6 +1,6 @@
 import { IRequestOptions } from "../types/data";
 
-const addTodo = async (value: string, token: string) => {
+const addTodo = async (value: string, token: string | null) => {
   if (value) {
     const addTodoHeader = new Headers();
     addTodoHeader.append("Authorization", `Bearer ${token}`);
@@ -26,7 +26,7 @@ const addTodo = async (value: string, token: string) => {
   }
 };
 
-const removeTodo = async (id: string, token: string) => {
+const removeTodo = async (id: string, token: string | null) => {
   const removeTodoHeader = new Headers();
   removeTodoHeader.append("Authorization", `Bearer ${token}`);
   removeTodoHeader.append("Content-Type", "application/json");
@@ -46,7 +46,11 @@ const removeTodo = async (id: string, token: string) => {
     .catch((error) => console.log("error", error));
 };
 
-const toggleTodo = async (id: string, completed: boolean, token: string) => {
+const toggleTodo = async (
+  id: string,
+  completed: boolean,
+  token: string | null
+) => {
   const toggleTodoHeader = new Headers();
   toggleTodoHeader.append("Authorization", `Bearer ${token}`);
   toggleTodoHeader.append("Content-Type", "application/json");
@@ -71,7 +75,7 @@ const toggleTodo = async (id: string, completed: boolean, token: string) => {
     .catch((error) => console.log("error", error));
 };
 
-const refreshTodo = async (id: string, value: string, token: string) => {
+const refreshTodo = async (id: string, value: string, token: string | null) => {
   const refreshTodoHeader = new Headers();
   refreshTodoHeader.append("Authorization", `Bearer ${token}`);
   refreshTodoHeader.append("Content-Type", "application/json");

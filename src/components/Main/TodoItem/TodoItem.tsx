@@ -2,12 +2,13 @@ import { ITodoItem } from "../../../types/data";
 import React from "react";
 import { removeTodo, toggleTodo, refreshTodo } from "../../../services/todoApi";
 import BaseButton from "../../common/BaseButton/BaseButton";
-
 import styles from "./TodoItem.module.scss";
 import { useState, useEffect, useRef } from "react";
 
 const TodoItem: React.FC<ITodoItem> = (props) => {
-  const { setTodos, _id, description, completed, token } = props;
+  const { setTodos, _id, description, completed } = props;
+
+  const token: string | null = localStorage.getItem("token");
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -18,6 +19,7 @@ const TodoItem: React.FC<ITodoItem> = (props) => {
   });
 
   const [value, setValue] = useState(description);
+
   const [editedTodoId, setEditedTodoId] = useState("");
 
   const onClickEdit = (id: any) => {

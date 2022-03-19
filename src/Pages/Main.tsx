@@ -10,7 +10,7 @@ const Main: React.FC = () => {
   const [tasks, setTasks] = useState<ITodo[]>([]);
 
   // const { userName } = useParams<{ userName: any }>();
-  const token = localStorage.getItem("token");
+  const token: string | null = localStorage.getItem("token");
   const setTodos = async () => {
     const getTodosHeader = new Headers();
     getTodosHeader.append("Authorization", `Bearer ${token}`);
@@ -46,9 +46,9 @@ const Main: React.FC = () => {
         />
       </Link>
       <div>
-        <BaseInput token={token} setTodos={setTodos} />
+        <BaseInput setTodos={setTodos} />
       </div>
-      <TodoList items={tasks} setTodos={setTodos} token={token} />
+      <TodoList items={tasks} setTodos={setTodos} />
     </div>
   );
 };

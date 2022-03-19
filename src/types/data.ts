@@ -6,13 +6,11 @@ export interface ITodo {
 
 export interface ITodoItem extends ITodo {
   setTodos: () => void;
-  token: string;
 }
 
 export interface ITodoListProps {
   items: ITodo[];
   setTodos: () => void;
-  token: string;
 }
 
 export interface IRequestOptions {
@@ -23,7 +21,6 @@ export interface IRequestOptions {
 }
 
 export interface IBaseInput {
-  token: string;
   setTodos: () => void;
 }
 
