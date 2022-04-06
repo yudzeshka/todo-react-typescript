@@ -5,10 +5,13 @@ import { IRequestOptions, ITodo } from "../types/data";
 import { BaseInput } from "../components/Main/BaseInput/BaseInput";
 import { logOut } from "../services/userApi";
 import BaseButton from "../components/common/BaseButton/BaseButton";
+import { useDispatch, useSelector } from "react-redux";
+import { getTodos } from "../redux/actions/todos";
 
 const Main: React.FC = () => {
   const [tasks, setTasks] = useState<ITodo[]>([]);
 
+  const dispatch = useDispatch();
   // const { userName } = useParams<{ userName: any }>();
   const token: string | null = localStorage.getItem("token");
   const setTodos = async () => {
@@ -29,6 +32,7 @@ const Main: React.FC = () => {
   };
 
   useEffect(() => {
+    dispatch(getTodos());
     if (token) {
       setTodos();
     }
