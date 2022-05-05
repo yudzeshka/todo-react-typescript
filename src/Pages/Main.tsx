@@ -11,7 +11,13 @@ import { getTodos } from "../redux/actions/todos";
 const Main: React.FC = () => {
   const [tasks, setTasks] = useState<ITodo[]>([]);
 
+  const todos = useSelector((state: any) => state.todos.todos);
+  console.log(todos);
+  const loading = useSelector((state: any) => state.todos.loading);
+
   const dispatch = useDispatch();
+  console.log(loading);
+
   // const { userName } = useParams<{ userName: any }>();
   const token: string | null = localStorage.getItem("token");
   const setTodos = async () => {
@@ -33,13 +39,15 @@ const Main: React.FC = () => {
 
   useEffect(() => {
     dispatch(getTodos());
-    if (token) {
-      setTodos();
+    if (todos) {
+      setTasks(todos);
     }
-  }, [token]);
+  }, []);
 
   return !token ? (
     <Navigate to="/" />
+  ) : loading ? (
+    <p>loading.....</p>
   ) : (
     <div className="mainPage">
       <Link to={"/"}>

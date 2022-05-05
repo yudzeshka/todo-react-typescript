@@ -1,16 +1,24 @@
-import { GET_TODOS_SUCCESS } from "../types";
+import { GET_TODOS_REQUESTED, GET_TODOS_SUCCESS } from "../types";
 
 const initialState = {
   todos: [],
+  loading: false,
 };
 
 export default function todos(state = initialState, action) {
   switch (action.type) {
+    case GET_TODOS_REQUESTED:
+      return {
+        ...state,
+        loading: true,
+      };
     case GET_TODOS_SUCCESS:
       return {
         ...state,
         todos: action.todos,
+        loading: false,
       };
+
     default:
       return state;
   }
