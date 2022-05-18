@@ -9,7 +9,7 @@ export interface ITodoItem extends ITodo {
 }
 
 export interface ITodoListProps {
-  items: ITodo[];
+  items?: ITodo[];
   setTodos: () => void;
 }
 

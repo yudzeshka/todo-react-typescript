@@ -1,11 +1,18 @@
+import { ITodo } from "../../types/data";
+import { GetTodosType } from "../actions/todos";
 import { GET_TODOS_REQUESTED, GET_TODOS_SUCCESS } from "../types";
 
+export type InitialStateType = typeof initialState;
+
 const initialState = {
-  todos: [],
+  todos: [] as Array<ITodo>,
   loading: false,
 };
 
-export default function todos(state = initialState, action) {
+export default function todos(
+  state = initialState,
+  action: any
+): InitialStateType {
   switch (action.type) {
     case GET_TODOS_REQUESTED:
       return {

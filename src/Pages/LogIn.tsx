@@ -1,45 +1,32 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { IRequestOptions } from "../types/data";
 import { Navigate } from "react-router-dom";
 import BaseButton from "../components/common/BaseButton/BaseButton";
 import { ILogInFormValues } from "../types/data";
+import { useDispatch, useSelector } from "react-redux";
+import { USER_LOGIN } from "../redux/types";
 
 export default function LogIn() {
   const [currentUser, setCurrentUser] = React.useState<any>(null);
-
+  const dispatch = useDispatch();
+  const store: any = useSelector((s) => s);
+  React.useEffect(() => {
+    setCurrentUser(store.user.user);
+  }, [store]);
   const initialValues: ILogInFormValues = {
     email: "",
     password: "",
   };
 
   const handleSubmit = async (values: ILogInFormValues) => {
-    const logInHeader = new Headers();
-    logInHeader.append("Content-Type", "application/json");
-
     const raw = JSON.stringify({
       email: values.email,
       password: values.password,
     });
 
-    const requestOptions: IRequestOptions = {
-      method: "POST",
-      headers: logInHeader,
-      body: raw,
-      redirect: "follow",
-    };
-
-    await fetch(
-      "https://api-nodejs-todolist.herokuapp.com/user/login",
-      requestOptions
-    )
-      .then((response) => response.text())
-      .then((result) => setCurrentUser(JSON.parse(result)))
-      .catch((error) => console.log("error", error));
+    dispatch({ type: USER_LOGIN, raw });
   };
-
-  currentUser && localStorage.setItem("token", currentUser.token);
 
   return currentUser ? (
     <Navigate to={"/main"} />

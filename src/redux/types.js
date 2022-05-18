@@ -1,2 +1,5 @@
 export const GET_TODOS_REQUESTED = "GET_TODOS_REQUESTED";
 export const GET_TODOS_SUCCESS = "GET_TODOS_SUCCESS";
+export const USER_LOGIN = "USER_LOGIN";
+export const GET_USER_TOKEN = "GET_USER_TOKEN";
+export const USER_SIGN_UP = "USER_SIGN_UP";

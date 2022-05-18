@@ -5,10 +5,17 @@ import { IRequestOptions } from "../types/data";
 import { Navigate } from "react-router-dom";
 import BaseButton from "../components/common/BaseButton/BaseButton";
 import { ISignUpFormValues } from "../types/data";
+import { useDispatch, useSelector } from "react-redux";
+import { USER_SIGN_UP } from "../redux/types";
 
 export default function SignUpForm() {
   const [currentUser, setCurrentUser] = React.useState<any>(null);
+  const dispatch = useDispatch();
+  const store: any = useSelector((s) => s);
 
+  React.useEffect(() => {
+    setCurrentUser(store.user.user);
+  }, [store]);
   const initialValues: ISignUpFormValues = {
     name: "",
     email: "",
@@ -16,29 +23,13 @@ export default function SignUpForm() {
   };
 
   const handleSubmit = async (values: ISignUpFormValues) => {
-    const signUpHeader = new Headers();
-    signUpHeader.append("Content-Type", "application/json");
-
     const raw = JSON.stringify({
       name: values.name,
       email: values.email,
       password: values.password,
     });
 
-    const requestOptions: IRequestOptions = {
-      method: "POST",
-      headers: signUpHeader,
-      body: raw,
-      redirect: "follow",
-    };
-
-    await fetch(
-      "https://api-nodejs-todolist.herokuapp.com/user/register",
-      requestOptions
-    )
-      .then((response) => response.text())
-      .then((result) => setCurrentUser(JSON.parse(result)))
-      .catch((error) => console.log("error", error));
+    dispatch({ type: USER_SIGN_UP, raw });
   };
 
   currentUser && localStorage.setItem("token", currentUser.token);

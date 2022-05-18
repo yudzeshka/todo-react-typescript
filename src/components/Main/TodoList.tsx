@@ -5,14 +5,18 @@ import { useSelector } from "react-redux";
 
 const TodoList: React.FC<ITodoListProps> = (props) => {
   const { setTodos } = props;
-  const todos: ITodo[] = useSelector((state: any) => state.todos.todos);
+  const todos: Array<ITodo> = useSelector((state: any) => state.todos.todos);
   return (
     <TransitionGroup component="div">
-      {todos.map((todo) => (
-        <CSSTransition key={todo._id} classNames={"todo"} timeout={800}>
-          <TodoItem key={todo._id} {...todo} setTodos={setTodos} />
-        </CSSTransition>
-      ))}
+      {!todos.length ? (
+        <p className="text">Now you have not got any tasks to do.</p>
+      ) : (
+        todos.map((todo) => (
+          <CSSTransition key={todo._id} classNames={"todo"} timeout={800}>
+            <TodoItem key={todo._id} {...todo} setTodos={setTodos} />
+          </CSSTransition>
+        ))
+      )}
     </TransitionGroup>
   );
 };

@@ -1,53 +1,32 @@
-import { useState, useEffect } from "react";
-import { useParams, Navigate, Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Navigate, Link } from "react-router-dom";
 import { TodoList } from "../components/Main/TodoList";
-import { IRequestOptions, ITodo } from "../types/data";
 import { BaseInput } from "../components/Main/BaseInput/BaseInput";
 import { logOut } from "../services/userApi";
 import BaseButton from "../components/common/BaseButton/BaseButton";
 import { useDispatch, useSelector } from "react-redux";
-import { getTodos } from "../redux/actions/todos";
-
+import { GET_TODOS_REQUESTED } from "../redux/types";
+import DotLoader from "react-spinners/DotLoader";
+import { override } from "../components/Main/Spinner";
 const Main: React.FC = () => {
-  const [tasks, setTasks] = useState<ITodo[]>([]);
-
-  const todos = useSelector((state: any) => state.todos.todos);
-  console.log(todos);
   const loading = useSelector((state: any) => state.todos.loading);
-
+  const user = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
-  console.log(loading);
 
   // const { userName } = useParams<{ userName: any }>();
   const token: string | null = localStorage.getItem("token");
-  const setTodos = async () => {
-    const getTodosHeader = new Headers();
-    getTodosHeader.append("Authorization", `Bearer ${token}`);
-    getTodosHeader.append("Content-Type", "application/json");
-
-    const requestOptions: IRequestOptions = {
-      method: "GET",
-      headers: getTodosHeader,
-      redirect: "follow",
-    };
-
-    fetch("https://api-nodejs-todolist.herokuapp.com/task", requestOptions)
-      .then((response) => response.text())
-      .then((result) => setTasks(JSON.parse(result).data))
-      .catch((error) => console.log("error", error));
+  const setTodos = () => {
+    dispatch({ type: GET_TODOS_REQUESTED });
   };
 
   useEffect(() => {
-    dispatch(getTodos());
-    if (todos) {
-      setTasks(todos);
-    }
-  }, []);
+    setTodos();
+  }, [user]);
 
   return !token ? (
     <Navigate to="/" />
   ) : loading ? (
-    <p>loading.....</p>
+    <DotLoader color="blue" loading={loading} css={override} size={100} />
   ) : (
     <div className="mainPage">
       <Link to={"/"}>
@@ -60,7 +39,7 @@ const Main: React.FC = () => {
       <div>
         <BaseInput setTodos={setTodos} />
       </div>
-      <TodoList items={tasks} setTodos={setTodos} />
+      <TodoList setTodos={setTodos} />
     </div>
   );
 };
