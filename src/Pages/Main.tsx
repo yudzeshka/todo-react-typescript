@@ -8,9 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { GET_TODOS_REQUESTED } from "../redux/types";
 import DotLoader from "react-spinners/DotLoader";
 import { override } from "../components/Main/Spinner";
+import { AppStateType } from "../types/data";
 const Main: React.FC = () => {
-  const loading = useSelector((state: any) => state.todos.loading);
-  const user = useSelector((state: any) => state.user);
+  const loading = useSelector((state: AppStateType) => state.todos.loading);
+  const user = useSelector((state: AppStateType) => state.user);
   const dispatch = useDispatch();
 
   // const { userName } = useParams<{ userName: any }>();

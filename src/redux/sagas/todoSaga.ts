@@ -1,15 +1,20 @@
 import { call, put, takeEvery } from "redux-saga/effects";
+import {
+  getTodoRequestedActionType,
+  IRequestOptions,
+  ITodo,
+} from "../../types/data";
 import { GET_TODOS_SUCCESS, GET_TODOS_REQUESTED } from "../types";
 
-function* fetchTodos(action) {
+function* fetchTodos(action: getTodoRequestedActionType) {
   const token = localStorage.getItem("token");
 
-  const getApi = async () => {
+  const getApi = async (): Promise<Array<ITodo>> => {
     const getTodosHeader = new Headers();
     getTodosHeader.append("Authorization", `Bearer ${token}`);
     getTodosHeader.append("Content-Type", "application/json");
 
-    const requestOptions = {
+    const requestOptions: IRequestOptions = {
       method: "GET",
       headers: getTodosHeader,
       redirect: "follow",
@@ -23,7 +28,7 @@ function* fetchTodos(action) {
     return data;
   };
 
-  const todos = yield call(getApi);
+  const todos: Array<ITodo> = yield call(getApi);
   yield put({
     type: GET_TODOS_SUCCESS,
     todos: todos,

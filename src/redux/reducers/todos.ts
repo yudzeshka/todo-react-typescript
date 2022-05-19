@@ -1,6 +1,10 @@
 import { ITodo } from "../../types/data";
 import { GetTodosType } from "../actions/todos";
 import { GET_TODOS_REQUESTED, GET_TODOS_SUCCESS } from "../types";
+import {
+  getTodoRequestedActionType,
+  getTodosSuccessActionType,
+} from "../../types/data";
 
 export type InitialStateType = typeof initialState;
 
@@ -9,9 +13,10 @@ const initialState = {
   loading: false,
 };
 
+type ActionTypes = getTodoRequestedActionType | getTodosSuccessActionType;
 export default function todos(
   state = initialState,
-  action: any
+  action: ActionTypes
 ): InitialStateType {
   switch (action.type) {
     case GET_TODOS_REQUESTED:
@@ -30,33 +35,3 @@ export default function todos(
       return state;
   }
 }
-
-// const initialState = {
-//   users: [],
-//   loading: false,
-//   error: null,
-// }
-
-// export default function users(state = initialState, action) {
-//   switch (action.type) {
-//     case type.GET_USERS_REQUESTED:
-//       return {
-//         ...state,
-//         loading: true,
-//       }
-//     case type.GET_USERS_SUCCESS:
-//       return {
-//         ...state,
-//         loading: false,
-//         users: action.users
-//       }
-//     case type.GET_USERS_FAILED:
-//       return {
-//         ...state,
-//         loading: false,
-//         error: action.message,
-//       }
-//     default:
-//       return state
-//   }
-// }

@@ -1,13 +1,14 @@
 import { call, put, takeEvery } from "redux-saga/effects";
+import { IRequestOptions, userLoginActionType } from "../../types/data";
 import { GET_USER_TOKEN, USER_LOGIN } from "../types";
 
-function* putUser(action) {
+function* putUser(action: userLoginActionType) {
   const raw = action.raw;
-  const fetchUser = async () => {
+  const fetchUser = async (): Promise<string> => {
     const logInHeader = new Headers();
     logInHeader.append("Content-Type", "application/json");
 
-    const requestOptions = {
+    const requestOptions: IRequestOptions = {
       method: "POST",
       headers: logInHeader,
       body: raw,
@@ -23,7 +24,7 @@ function* putUser(action) {
     return result;
   };
 
-  const user = yield call(fetchUser);
+  const user: string = yield call(fetchUser);
   yield put({
     type: GET_USER_TOKEN,
     user: user,

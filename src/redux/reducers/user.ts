@@ -1,8 +1,11 @@
-import { ITodo } from "../../types/data";
+import { getUserTokenType, ITodo, userType } from "../../types/data";
 import { GetTodosType } from "../actions/todos";
 import { GET_USER_TOKEN } from "../types";
+import { userInsideUserType } from "../../types/data";
 
-export type InitialStateType = typeof initialState;
+export type InitialStateType = {
+  user: null | userType;
+};
 
 const initialState = {
   user: null,
@@ -10,7 +13,7 @@ const initialState = {
 
 export default function user(
   state = initialState,
-  action: any
+  action: getUserTokenType
 ): InitialStateType {
   switch (action.type) {
     case GET_USER_TOKEN:

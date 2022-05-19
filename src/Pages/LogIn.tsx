@@ -3,23 +3,23 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Navigate } from "react-router-dom";
 import BaseButton from "../components/common/BaseButton/BaseButton";
-import { ILogInFormValues } from "../types/data";
+import { AppStateType, ILogInFormValues, userType } from "../types/data";
 import { useDispatch, useSelector } from "react-redux";
 import { USER_LOGIN } from "../redux/types";
 
 export default function LogIn() {
-  const [currentUser, setCurrentUser] = React.useState<any>(null);
+  const [currentUser, setCurrentUser] = React.useState<string | null>(null);
   const dispatch = useDispatch();
-  const store: any = useSelector((s) => s);
+  const store: any = useSelector((s: AppStateType) => s);
   React.useEffect(() => {
-    setCurrentUser(store.user.user);
+    setCurrentUser(localStorage.getItem("token"));
   }, [store]);
   const initialValues: ILogInFormValues = {
     email: "",
     password: "",
   };
 
-  const handleSubmit = async (values: ILogInFormValues) => {
+  const handleSubmit = (values: ILogInFormValues) => {
     const raw = JSON.stringify({
       email: values.email,
       password: values.password,

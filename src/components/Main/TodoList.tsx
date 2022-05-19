@@ -1,11 +1,13 @@
-import { ITodoListProps, ITodo } from "../../types/data";
+import { ITodoListProps, ITodo, AppStateType } from "../../types/data";
 import { TodoItem } from "./TodoItem/TodoItem";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { useSelector } from "react-redux";
 
 const TodoList: React.FC<ITodoListProps> = (props) => {
   const { setTodos } = props;
-  const todos: Array<ITodo> = useSelector((state: any) => state.todos.todos);
+  const todos: Array<ITodo> = useSelector(
+    (state: AppStateType) => state.todos.todos
+  );
   return (
     <TransitionGroup component="div">
       {!todos.length ? (

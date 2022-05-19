@@ -1,6 +1,7 @@
 import { IRequestOptions } from "../types/data";
 
 const logOut = async (token: string) => {
+  localStorage.removeItem("token");
   const logOutHeader = new Headers();
   logOutHeader.append("Authorization", `Bearer ${token}`);
 

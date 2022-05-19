@@ -5,5 +5,5 @@ export const override = css`
   display: block;
   margin: 0 auto;
   border-color: red;
-  margin-top: 30%;
+  margin-top: 20%;
 `;
